@@ -7,8 +7,13 @@ import Category from './components/Catagory';
 function App() {
   return (
     <div className="App">
-        <Topbar/>
-        <Category/>
+        <div style={{flex:1}}>
+          <Topbar/>
+          <Category/>
+        </div>
+        <div>
+          <Navbar/>
+        </div>
     </div>
   );
 }

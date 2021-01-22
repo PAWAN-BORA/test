@@ -20,6 +20,15 @@
 }
 
 /* topbar ends */
+
+/* navabar style */
+.navbar {
+    background: chartreuse;
+    height: 100%;
+    width: 250px;
+    
+}
+/* navbar ends */
 /* category style */
 .main_catagory {
 
@@ -37,7 +46,8 @@
     display: flex;
     flex-wrap: wrap;
     background: tomato;
-    justify-content: space-around;
+    /* justify-content: space-around; */
+    
 }
 .category_cart {
     width: 23vw;
