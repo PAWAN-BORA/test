@@ -15,13 +15,13 @@ export default function Category({isNavbarOpen, categories, gotToProduct, imageP
         return(
             <div  to="/product" className={`${style.category_cart} ${customClass}`} onClick={()=>{gotToProduct(category.product)}} >
                 <img src={imagePath.category+category.category_image} alt={category.category_name}/>
-                <span>{category.category_name}</span>
+                <span dangerouslySetInnerHTML={{__html:category.category_name}} ></span>
             </div>
         );
     }
     return(
         <div className={style.main_catagory}>
-            <div className={style.catatory_top}>Main Category</div>
+            <div className={style.catatory_top}><span>Main Category</span><hr/></div>
             <div className={style.category_box}>
                 {categories.map((category)=>{
                     return(

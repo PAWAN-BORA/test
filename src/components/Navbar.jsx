@@ -7,7 +7,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 export default function Navbar({isNavbarOpen, cartData, changeItemCount, removeItemFromCart}) {
 
-    console.log(cartData)
     function EmptyCart() {
     
         return (
@@ -17,7 +16,7 @@ export default function Navbar({isNavbarOpen, cartData, changeItemCount, removeI
                     <ShoppingCartIcon />
                     </div>
                     <div className={style.navbar_text_view}>
-                        your cart is empty
+                        Cart is Empty
                     </div>
                     <div className={style.navbar_empty_text}>
                         looks like you have not made your choice yet 
@@ -52,21 +51,12 @@ export default function Navbar({isNavbarOpen, cartData, changeItemCount, removeI
                         viewItem(10):
                         viewItem(item.addedItem)
                     }
-                    {/* <MenuItem value={1}>1</MenuItem>
-                    <MenuItem value={2}>2</MenuItem>
-                    <MenuItem value={3}>3</MenuItem>
-                    <MenuItem value={4}>4</MenuItem>
-                    <MenuItem value={5}>5</MenuItem>
-                    <MenuItem value={6}>6</MenuItem>
-                    <MenuItem value={7}>7</MenuItem>
-                    <MenuItem value={8}>8</MenuItem>
-                    <MenuItem value={9}>9</MenuItem>
-                    <MenuItem value={10}>10</MenuItem> */}
+                   
                 </Select>
                 </div>
                 <div className={style.cart_item_detail} >
                     <div>
-                        <span>{item.store_product_name}</span>
+                        <span dangerouslySetInnerHTML={{__html:item.store_product_name}}></span>
                         <span>&#36;{item.product_price*item.addedItem}</span>
                     </div>
                     <div style={{marginTop:"10px"}}>
@@ -77,12 +67,32 @@ export default function Navbar({isNavbarOpen, cartData, changeItemCount, removeI
             </div>
         )
     }
+
+    function Checkout({totalItems}) {
+        let totalPrice = 0;
+
+        for(let t of totalItems) {
+            totalPrice += t.product_price*t.addedItem;
+        }
+        totalPrice = Math.round(totalPrice*100)/100;
+        return(
+            <div className={style.navbar_checkout}>
+                <div>
+                    CHECKOUT
+                </div>
+                <div className={style.navbar_totalPrice}>
+                    <span style={{fontSize:"10px"}}>ORDER TOTAL</span> <span>&#36;{totalPrice}</span>
+                </div>
+            </div>
+        );
+    }
     let customClass = undefined;
     if(isNavbarOpen) {
         customClass = style.navbar_open;
     } else {
         customClass = style.navbar_close;
     } 
+
     return(
         <div className={`${style.navbar} ${customClass}`}>
             <div className={style.navbar_top}>
@@ -97,11 +107,14 @@ export default function Navbar({isNavbarOpen, cartData, changeItemCount, removeI
             
             {cartData.length===0?
                 <EmptyCart/>:
-                <>
+                <div className={style.cart_items}>
                     {cartData.map((item)=>{
                         return <Cart key={item.store_product_id} item={item}/>
                     })}
-                </>
+                </div>
+            }
+            {cartData.length!==0 && 
+                <Checkout totalItems={cartData} />
             }
         </div>
     );

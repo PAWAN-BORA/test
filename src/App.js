@@ -7,7 +7,7 @@ import Product from "./components/Product";
 import {Switch, Route, useHistory} from "react-router-dom";
 function App() {
   const [data, setData] = useState({categories:[], imagePath:{}});
-  const [isNavbarOpen, setNavbar] = useState(true);
+  const [isNavbarOpen, setNavbar] = useState(false);
   const [cartData, setCartData] = useState([]);
   const [productPage, setProductPage] = useState({isAvailable:false, products:[]});
   const history = useHistory();
@@ -92,11 +92,6 @@ function App() {
             <Product products={productPage.products} addItemToCart={addItemToCart}/>
           </Route>
           </Switch>
-{/*           
-          {productPage.isAvailable?
-         :
-          
-          }  */}
         </div>
         <div>
           <Navbar removeItemFromCart={removeItemFromCart} isNavbarOpen={isNavbarOpen} cartData={cartData} changeItemCount={changeItemCount}/>

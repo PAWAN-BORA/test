@@ -1,10 +1,16 @@
 import style from './style.module.css'
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
-import { useState } from 'react';
-import { Description } from '@material-ui/icons';
+import { useEffect, useState } from 'react';
+import {useHistory} from 'react-router-dom';
 export default function Products({products, addItemToCart}) {
     
+    const history = useHistory();
+    useEffect(()=>{
+        if(products.length===0) {
+            history.push('/');
+        }
+    }, [])
     function ProductCart({product}) {
+        const [addedToCart, setAddedToCart] = useState(false);
         const [descriptionType, setDescriptionType] = useState('short');
         let description
         if(descriptionType==="short") {
@@ -13,9 +19,16 @@ export default function Products({products, addItemToCart}) {
         } else if(descriptionType==="long") {
             description = product.product_desc
         }
+        function addToCart(product) {
+            setAddedToCart(true);
+            setTimeout(()=>{
+                addItemToCart(product);
+                // setAddedToCart(true);
+            }, 500)
+        }
         return(
             <div className={style.product_cart}>
-                <div className={style.product_name}>{product.store_product_name}</div>
+                <div className={style.product_name} dangerouslySetInnerHTML={{__html:product.store_product_name}}></div>
                 <div className={style.product_desc}>
                 {descriptionType==="short"?
                 <>
@@ -29,11 +42,14 @@ export default function Products({products, addItemToCart}) {
                 <div className={style.product_cart_bottom}>
                     <div>Customize</div>
                     <div className={style.product_price}>
-                        <span className={style.product_add} onClick={()=>{addItemToCart(product)}}>Add</span>
+                        <span className={style.product_add} onClick={()=>{addToCart(product)}}>Add</span>
                         <div></div>
                         <span>&#36;{product.product_price}</span>
                     </div>
                 </div>
+                {addedToCart && 
+                    <div className={style.product_added_to_cart}>Added to cart</div>
+                }
             </div>
         );
     }
